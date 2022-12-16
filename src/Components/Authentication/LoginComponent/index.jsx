@@ -12,9 +12,15 @@ const LoginComponent = () => {
     const result = await BaseAPI.post("/auth/login", values);
     console.log(result)
     if (result) {
+      const formattedData = JSON.stringify(result?.data?.data)
       sessionStorage.setItem("token", result?.data?.data?.token);
+      sessionStorage.setItem("userInfo", formattedData);
+
       navigate("/");
       Notification("Success", result?.data?.message, "success");
+    }else{
+      Notification("Error", "Something Went Wrong", "error");
+
     }
   };
   return (

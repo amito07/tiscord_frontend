@@ -10,7 +10,7 @@ const MainLayout = () => {
     <>
       <Routes>
         <Route element={<PrivateRoutes />}>
-          <Route exact path="/" element={<Home />} />
+          <Route path="/" element={<Home />} />
         </Route>
         <Route exact path="/login" element={<Login />} />
       </Routes>
