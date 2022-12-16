@@ -1,27 +1,19 @@
 import React from "react";
 import Login from "../Pages/Login";
-import { Route, Routes, Navigate } from "react-router-dom";
-import { Layout, Row } from "antd";
-const { Footer, Content } = Layout;
+import { Route, Routes } from "react-router-dom";
+import PrivateRoutes from "../routes/ProtectedRoutes/PrivateRoutes.js";
+import Home from "../Pages/Home";
 
 const MainLayout = () => {
+  console.log("Hitttt");
   return (
     <>
-      <Layout>
-        <Content>
-          {" "}
-          <Row justify="center">
-            <div>
-              <Routes>
-                <Route exact path="/login" element={<Login />} />
-                <Route exact path="/signup" element={<Login />} />
-                <Route path="*" element={<Navigate to="/login" replace />} />
-              </Routes>
-            </div>
-          </Row>
-        </Content>
-        <Footer>Footer</Footer>
-      </Layout>
+      <Routes>
+        <Route element={<PrivateRoutes />}>
+          <Route exact path="/" element={<Home />} />
+        </Route>
+        <Route exact path="/login" element={<Login />} />
+      </Routes>
     </>
   );
 };
