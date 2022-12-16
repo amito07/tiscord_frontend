@@ -5,12 +5,11 @@ export const ChatContext = createContext();
 const ChatProvider = ({ children }) => {
 
   const [user, setUser] = useState();
-  useEffect(() => {
-    const userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
-    setUser(userInfo);
+  useEffect(()=>{
+    setUser(JSON.parse(sessionStorage.getItem("userInfo")))
 
-  }, []);
-  return <ChatContext.Provider value={{user}}>{children}</ChatContext.Provider>;
+  },[])
+  return <ChatContext.Provider value={{user,setUser}}>{children}</ChatContext.Provider>;
 };
 
 export const ChatState = ()=>{

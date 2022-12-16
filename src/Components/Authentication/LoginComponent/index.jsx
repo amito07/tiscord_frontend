@@ -1,26 +1,27 @@
-import React from "react";
+import React, { useContext } from "react";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { Button, Form, Input } from "antd";
 import { BaseAPI } from "../../../utils/ApiGateway";
 import { useNavigate } from "react-router-dom";
 import { Notification } from "../../../utils/Notification";
+import { ChatContext } from "../../../Context/ChatProvider";
 
 const LoginComponent = () => {
+  const { setUser } = useContext(ChatContext);
   const navigate = useNavigate();
   const onFinish = async (values) => {
     console.log("Received values of form: ", values);
     const result = await BaseAPI.post("/auth/login", values);
-    console.log(result)
     if (result) {
       const formattedData = JSON.stringify(result?.data?.data)
       sessionStorage.setItem("token", result?.data?.data?.token);
-      sessionStorage.setItem("userInfo", formattedData);
+      sessionStorage.setItem("userInfo",formattedData);
+      setUser(result?.data?.data);
 
       navigate("/");
       Notification("Success", result?.data?.message, "success");
-    }else{
+    } else {
       Notification("Error", "Something Went Wrong", "error");
-
     }
   };
   return (
