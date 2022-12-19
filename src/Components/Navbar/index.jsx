@@ -31,6 +31,7 @@ const Navbar = () => {
   const [open, setOpen] = useState(false);
   const [searchUsers, setSearchUsers] = useState([]);
   const [loading, setLoading] = useState(false);
+  console.log("searchUsers", searchUsers);
 
   const showDrawer = () => {
     setOpen(true);
@@ -41,8 +42,11 @@ const Navbar = () => {
 
   const onSearch = async (value) => {
     setLoading(true);
+    const config = {
+      headers: { Authorization: `Bearer ${sessionStorage.getItem("token")}` },
+    };
     try {
-      const result = await BaseAPI.get(`/user?search=${value}`);
+      const result = await BaseAPI.get(`/user?search=${value}`, config);
       setSearchUsers(result?.data?.requesteduser);
     } catch (error) {
       Notification("Error", "Something went wrong", "error");
@@ -87,9 +91,23 @@ const Navbar = () => {
         {searchUsers.map((el, index) => (
           <>
             <Skeleton key={el._id} loading={loading} active={loading} />
-            <Card key={index}>
-              <Text strong>{el.name}</Text>
-            </Card>
+            <Link to='/chat'>
+              <Card onClick={()=> setOpen(false)} key={index}>
+                <Avatar
+                  src={
+                    <Image
+                      src={el.pic}
+                      style={{
+                        width: 30,
+                      }}
+                    />
+                  }
+                />
+                <Text style={{ marginLeft: "1em" }} strong>
+                  {el.name}
+                </Text>
+              </Card>
+            </Link>
           </>
         ))}
       </Drawer>
